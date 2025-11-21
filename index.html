@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Form with Validation</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8f8f8;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 500px;
+        margin: 40px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 15px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    textarea {
+        height: 120px;
+        resize: none;
+    }
+
+    button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        background: #0078ff;
+        color: white;
+        border: none;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #005fcc;
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+        margin-top: 3px;
+    }
+
+    .success {
+        text-align: center;
+        color: green;
+        font-size: 18px;
+        margin-top: 15px;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Contact Us</h2>
+
+    <div id="successMessage" class="success">
+        Message Sent Successfully! 🎉
+    </div>
+
+    <form id="contactForm" onsubmit="return validateForm()">
+
+        <label>Name:</label>
+        <input type="text" id="name">
+        <div id="nameError" class="error"></div>
+
+        <label>Email:</label>
+        <input type="text" id="email">
+        <div id="emailError" class="error"></div>
+
+        <label>Message:</label>
+        <textarea id="message"></textarea>
+        <div id="messageError" class="error"></div>
+
+        <button type="submit">Send Message</button>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        let valid = true;
+
+        // Get values
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let message = document.getElementById("message").value.trim();
+
+        // Get error fields
+        let nameError = document.getElementById("nameError");
+        let emailError = document.getElementById("emailError");
+        let messageError = document.getElementById("messageError");
+        let successMessage = document.getElementById("successMessage");
+
+        // Clear previous errors
+        nameError.innerHTML = "";
+        emailError.innerHTML = "";
+        messageError.innerHTML = "";
+        successMessage.style.display = "none";
+
+        // Name validation
+        if (name === "") {
+            nameError.innerHTML = "Please enter your name.";
+            valid = false;
+        }
+
+        // Email validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === "") {
+            emailError.innerHTML = "Please enter your email.";
+            valid = false;
+        } else if (!emailPattern.test(email)) {
+            emailError.innerHTML = "Please enter a valid email address.";
+            valid = false;
+        }
+
+        // Message validation
+        if (message.length < 10) {
+            messageError.innerHTML = "Message must be at least 10 characters.";
+            valid = false;
+        }
+
+        // If valid → show success message
+        if (valid) {
+            successMessage.style.display = "block";
+            document.getElementById("contactForm").reset();
+        }
+
+        return false; // Prevent actual form submission
+    }
+</script>
+
+</body>
+</html>
